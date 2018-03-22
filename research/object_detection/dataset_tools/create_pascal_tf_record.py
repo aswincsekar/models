@@ -168,7 +168,7 @@ def main(_):
         #                              'aeroplane_' + FLAGS.set + '.txt')
         annotations_dir = os.path.join(data_dir, year, FLAGS.annotations_dir)
         examples_list = dataset_util.read_examples_list(image_set_path)
-        print(examples_list)
+        # print(examples_list)
         for idx, example in enumerate(examples_list):
           if idx % 100 == 0:
             logging.info('On image %d of %d', idx, len(examples_list))
