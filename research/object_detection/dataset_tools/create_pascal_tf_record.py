@@ -173,6 +173,10 @@ def main(_):
           if idx % 100 == 0:
             logging.info('On image %d of %d', idx, len(examples_list))
           path = os.path.join(annotations_dir, example + '.xml')
+          print(path)
+          print(example)
+          print(idx)
+          sys.exit(0)
           with tf.gfile.GFile(path, 'r') as fid:
             xml_str = fid.read()
           xml = etree.fromstring(xml_str)
