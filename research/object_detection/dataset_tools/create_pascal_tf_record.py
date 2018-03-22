@@ -83,10 +83,10 @@ def dict_to_tf_example(data,
   Raises:
     ValueError: if the image pointed to by data['filename'] is not a valid JPEG
   """
-  print(data)
+  # print(data)
   img_path = os.path.join(year, image_subdirectory, data['filename']+".jpg")
   full_path = os.path.join(dataset_directory, img_path)
-  print(full_path)
+  # print(full_path)
   with tf.gfile.GFile(full_path, 'rb') as fid:
     encoded_jpg = fid.read()
   encoded_jpg_io = io.BytesIO(encoded_jpg)
@@ -181,10 +181,10 @@ def main(_):
 
           data = dataset_util.recursive_parse_xml_to_dict(xml)['annotation']
 
-
-          tf_example = dict_to_tf_example(data, FLAGS.data_dir, year, label_map_dict,
-                                          FLAGS.ignore_difficult_instances)
-          writer.write(tf_example.SerializeToString())
+          if 'object' in data.keys():
+              tf_example = dict_to_tf_example(data, FLAGS.data_dir, year, label_map_dict,
+                                              FLAGS.ignore_difficult_instances)
+              writer.write(tf_example.SerializeToString())
 
   writer.close()
 
