@@ -82,6 +82,7 @@ def dict_to_tf_example(data,
   Raises:
     ValueError: if the image pointed to by data['filename'] is not a valid JPEG
   """
+  print(data)
   img_path = os.path.join(data['folder'], image_subdirectory, data['filename'])
   full_path = os.path.join(dataset_directory, img_path)
   with tf.gfile.GFile(full_path, 'rb') as fid:
@@ -168,15 +169,10 @@ def main(_):
         #                              'aeroplane_' + FLAGS.set + '.txt')
         annotations_dir = os.path.join(data_dir, year, FLAGS.annotations_dir)
         examples_list = dataset_util.read_examples_list(image_set_path)
-        # print(examples_list)
         for idx, example in enumerate(examples_list):
           if idx % 100 == 0:
             logging.info('On image %d of %d', idx, len(examples_list))
           path = os.path.join(annotations_dir, example + '.xml')
-          print(path)
-          print(example)
-          print(idx)
-          sys.exit(0)
           with tf.gfile.GFile(path, 'r') as fid:
             xml_str = fid.read()
           xml = etree.fromstring(xml_str)
