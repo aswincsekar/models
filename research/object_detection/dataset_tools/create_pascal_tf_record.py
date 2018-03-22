@@ -157,6 +157,7 @@ def main(_):
   writer = tf.python_io.TFRecordWriter(FLAGS.output_path)
 
   label_map_dict = label_map_util.get_label_map_dict(FLAGS.label_map_path)
+  print(label_map_dict)
 
   for year in years:
     logging.info('Reading from PASCAL %s dataset.', year)
@@ -164,18 +165,18 @@ def main(_):
                                  'aeroplane_' + FLAGS.set + '.txt')
     annotations_dir = os.path.join(data_dir, year, FLAGS.annotations_dir)
     examples_list = dataset_util.read_examples_list(examples_path)
-    for idx, example in enumerate(examples_list):
-      if idx % 100 == 0:
-        logging.info('On image %d of %d', idx, len(examples_list))
-      path = os.path.join(annotations_dir, example + '.xml')
-      with tf.gfile.GFile(path, 'r') as fid:
-        xml_str = fid.read()
-      xml = etree.fromstring(xml_str)
-      data = dataset_util.recursive_parse_xml_to_dict(xml)['annotation']
-
-      tf_example = dict_to_tf_example(data, FLAGS.data_dir, label_map_dict,
-                                      FLAGS.ignore_difficult_instances)
-      writer.write(tf_example.SerializeToString())
+    # for idx, example in enumerate(examples_list):
+    #   if idx % 100 == 0:
+    #     logging.info('On image %d of %d', idx, len(examples_list))
+    #   path = os.path.join(annotations_dir, example + '.xml')
+    #   with tf.gfile.GFile(path, 'r') as fid:
+    #     xml_str = fid.read()
+    #   xml = etree.fromstring(xml_str)
+    #   data = dataset_util.recursive_parse_xml_to_dict(xml)['annotation']
+    #
+    #   tf_example = dict_to_tf_example(data, FLAGS.data_dir, label_map_dict,
+    #                                   FLAGS.ignore_difficult_instances)
+    #   writer.write(tf_example.SerializeToString())
 
   writer.close()
 
